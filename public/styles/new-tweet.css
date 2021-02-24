@@ -1,0 +1,126 @@
+.new-tweet {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+  margin: 0 auto;
+}
+
+#tweet-text {
+  background: transparent;
+  width: 100%;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: solid 5px;
+  font-weight: 700;
+}
+
+.container-bottom {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: 'Bungee', sans-serif;
+}
+
+.tweet-button {
+  border-radius: 0;
+  color: white;
+  text-transform: uppercase;
+  border: none;
+  background: #4056A1; 
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.limit {
+  color: red;
+}
+
+article.tweet {
+  border: solid 5px black;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 1.5em;
+  padding: 10px 30px;
+  box-shadow: none;
+  transition: ease-in-out 0.2s;
+}
+
+article.tweet:hover {
+  box-shadow: 10px 10px 0px 0px rgba(183,195,235,1);
+}
+
+/* New tweet Header */
+
+.tweet-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 25px;
+}
+
+.left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-header .avatar-name {
+  margin-left: 20px;
+  font-weight: 300;
+}
+
+.left-header .avatar-pic {
+  width: 100px;
+  height: 100px;
+}
+
+.right-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.right-header .avatar-handle {
+  color: transparent;
+  font-weight: 300;
+  transition: 0.2s ease-in-out;
+}
+
+article.tweet:hover .avatar-handle {
+  color: rgba(183,195,235,1);
+}
+
+/* New tweet Body */
+
+.tweet-paragraph {
+  width: 100%;
+  margin: 25px 0 10px 0;
+  padding: 0 25px;
+}
+
+/* New tweet Footer */
+
+.tweet-footer {
+  width: 100%;
+  border-top: solid 5px black;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px;
+  align-items: center;
+}
+
+.tweet-icons {
+  display: flex;
+  flex-direction: row;
+}
+
+.tweet-icons img {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+}
