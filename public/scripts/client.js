@@ -69,6 +69,18 @@ $(document).ready(function() {
 
   $("#tweet-form").on('submit', function (event) {
     event.preventDefault();
+
+    // If form is empty
+    if(!$("#tweet-text").val()) {
+      alert("No text entered")
+      return;
+    } 
+    
+    if ($("#tweet-text").val().length > 140) {
+      alert("Text exceeded 140 characters")
+      return;
+    } 
+
     $.ajax({
       url: "/tweets",
       method: "POST",
