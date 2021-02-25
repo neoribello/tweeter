@@ -6,7 +6,14 @@
 
 // Test / driver code (temporary). Eventually will get this from the server.
 $(document).ready(function() { 
-  const data = []
+  const data = [];
+
+  // escape funciton refactors the user input
+  const escape = function(str) {
+    let div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  };
 
   const renderTweets = function(tweets) {
     // loops through tweets
@@ -15,7 +22,7 @@ $(document).ready(function() {
       const $tweet = createTweetElement(tweet);
       console.log($tweet);
     // takes return value and appends it to the tweets container
-      $("#tweets-container").append($tweet);
+      $("#tweets-container").prepend($tweet);
     }
   }
 
@@ -44,7 +51,7 @@ $(document).ready(function() {
       </header>
 
       <div class="tweet-paragraph">
-        <p>${tweet.content.text}</p>
+        <p>${escape(tweet.content.text)}</p>
       </div>
 
       <footer class="tweet-footer">
@@ -60,24 +67,26 @@ $(document).ready(function() {
         </div>
       </footer>
     </article>
-    
     `
-    // ...
     return $tweet;
   }
   renderTweets(data);
-
+  
   $("#tweet-form").on('submit', function (event) {
     event.preventDefault();
 
     // If form is empty
     if(!$("#tweet-text").val()) {
-      alert("No text entered")
-      return;
+      $(".tweet-error").text("Cannot submit an empty tweet");
+      $(".tweet-error").slideDown("slow");
+      $(".tweet-error").css( {"color": "red", "border": "3px solid red", "padding" : "10px"} );
     } 
     
+    // If form exceeds 140 characters
     if ($("#tweet-text").val().length > 140) {
-      alert("Text exceeded 140 characters")
+      $(".tweet-error").text("Too long. Plz respect our arbitary limit");
+      $(".tweet-error").slideDown("slow");
+      $(".tweet-error").css( {"color": "red", "border": "3px solid red", "padding" : "10px"} );
       return;
     } 
 
@@ -86,6 +95,14 @@ $(document).ready(function() {
       method: "POST",
       data: $(this).serialize()
     })
-    .then(console.log(this))
+    .then(() => {
+      // resets to empty textarea when submit
+      $('#tweet-text').val("");
+      // resets the counter to 140 when submit
+      $(".counter").text(140);
+      $(".tweet-error").css("display", "none");
+      loadTweets();
+    })
   })
+  
 });
