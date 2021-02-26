@@ -4,8 +4,7 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-// Test / driver code (temporary). Eventually will get this from the server.
-$(document).ready(function() { 
+$(document).ready(function() {
   const data = [];
 
   // escape funciton refactors the user input
@@ -15,16 +14,17 @@ $(document).ready(function() {
     return div.innerHTML;
   };
 
+
   const renderTweets = function(tweets) {
     // loops through tweets
     for (const tweet of tweets) {
     // calls createTweetElement for each tweet
       const $tweet = createTweetElement(tweet);
       console.log($tweet);
-    // takes return value and appends it to the tweets container
+      // takes return value and appends it to the tweets container
       $("#tweets-container").prepend($tweet);
     }
-  }
+  };
 
   const loadTweets = function() {
     $.ajax("/tweets", {
@@ -37,7 +37,7 @@ $(document).ready(function() {
   loadTweets();
 
   const createTweetElement = function(tweet) {
-    let $tweet = /* Your code for creating the tweet element */
+    let $tweet =
     `
     <article class="tweet">
       <header class="tweet-header">
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
       <footer class="tweet-footer">
         <div class="left-footer">
-          <h4 class="tweet-time">${tweet.created_at}</h4>
+          <h4 class="tweet-time">${timeCreated(tweet.created_at)} ago</h4>
         </div>
         <div class="right-footer">
           <div class="tweet-icons">
@@ -67,42 +67,66 @@ $(document).ready(function() {
         </div>
       </footer>
     </article>
-    `
+    `;
     return $tweet;
-  }
+  };
   renderTweets(data);
   
-  $("#tweet-form").on('submit', function (event) {
+  $("#tweet-form").on('submit', function(event) {
     event.preventDefault();
 
     // If form is empty
-    if(!$("#tweet-text").val()) {
+    if (!$("#tweet-text").val()) {
       $(".tweet-error").text("Cannot submit an empty tweet");
       $(".tweet-error").slideDown("slow");
-      $(".tweet-error").css( {"color": "red", "border": "3px solid red", "padding" : "10px"} );
-    } 
+      $(".tweet-error").css({"color": "red", "border": "3px solid red", "padding" : "10px"});
+    }
     
     // If form exceeds 140 characters
     if ($("#tweet-text").val().length > 140) {
       $(".tweet-error").text("Too long. Plz respect our arbitary limit");
       $(".tweet-error").slideDown("slow");
-      $(".tweet-error").css( {"color": "red", "border": "3px solid red", "padding" : "10px"} );
+      $(".tweet-error").css({"color": "red", "border": "3px solid red", "padding" : "10px"});
       return;
-    } 
+    }
 
     $.ajax({
       url: "/tweets",
       method: "POST",
       data: $(this).serialize()
     })
-    .then(() => {
+      .then(() => {
       // resets to empty textarea when submit
-      $('#tweet-text').val("");
-      // resets the counter to 140 when submit
-      $(".counter").text(140);
-      $(".tweet-error").css("display", "none");
-      loadTweets();
-    })
-  })
+        $('#tweet-text').val("");
+        // resets the counter to 140 when submit
+        $(".counter").text(140);
+        $(".tweet-error").css("display", "none");
+        loadTweets();
+      });
+  });
+
+  $(".write").click(function() {
+    $('html, body').animate({
+      scrollTop: $(".new-tweet").offset().top
+    }, 1000);
+  });
   
+  const timeCreated = (time) => {
+    const timeDiff = Date.now() - time;
+    if (timeDiff >= 31556952000) {
+      return `${Math.floor(timeDiff / 31556952000)} years`;
+    } else if (timeDiff >= 2592000000) {
+      return `${Math.floor(timeDiff / 2592000000)} months`;
+    } else if (timeDiff >= 604800000) {
+      return `${Math.floor(timeDiff / 604800000)} weeks`;
+    } else if (timeDiff >= 86400000) {
+      return `${Math.floor(timeDiff / 86400000)} days`;
+    } else if (timeDiff >= 3600000) {
+      return `${Math.floor(timeDiff / 3600000)} hours`;
+    } else if (timeDiff >= 60000) {
+      return `${Math.floor(timeDiff / 60000)} minutes`;
+    } else {
+      return `${Math.floor(timeDiff / 1000)} seconds`;
+    }
+  };
 });

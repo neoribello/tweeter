@@ -1,6 +1,5 @@
 .site-header {
   height: 400px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,7 +7,6 @@
   color: white;
   background-color: #0b4783;
   background-image: url('../images/45-degree-fabric-dark.png');
-  margin-top: 119px;
 }
 
 .header-name {

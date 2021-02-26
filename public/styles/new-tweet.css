@@ -49,7 +49,7 @@ article.tweet {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 1.5em;
+  margin: 1.5em 0;
   padding: 10px 30px;
   box-shadow: none;
   transition: ease-in-out 0.2s;
@@ -120,14 +120,20 @@ article.tweet:hover .avatar-handle {
 }
 
 .tweet-icons {
-  display: flex;
   flex-direction: row;
+  transition: 0.2s ease-in-out;
+  opacity: 0;
+}
+
+article.tweet:hover .tweet-icons {
+  opacity: 1;
 }
 
 .tweet-icons img {
   width: 20px;
   height: 20px;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 /* Error message */

@@ -18,7 +18,10 @@ body {
   color: #545149;
   background-color: #f4f1ec;
   font-size: 24px;
+  width: 100%;
   font-family: 'Source Sans Pro', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -27,10 +30,32 @@ body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  padding: 0;
 }
 
+@media only screen and (max-width: 1024px) {
+  .site-header {
+    width: 100%;
+    margin: 90px 0 0 0;
+  }
+}
 
+@media only screen and (min-width: 1024px) {
+  body {
+    flex-direction: row;
+  }
 
+  .container {
+    padding: 60px;
+    width: 60%;
+    padding: 90px 60px 60px 60px;
+  }
+
+  .site-header {
+    width: 40%;
+    margin: 150px 50px;
+  }
+}
 
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
