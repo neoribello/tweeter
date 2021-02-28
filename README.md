@@ -12,7 +12,7 @@ Mobile version of the app
 
 New composed tweet
 
-![New tweet](https://github.com/neoribello/tweeter/blob/master/docs/tweeter-mobile.png?raw=true)
+![New tweet](https://github.com/neoribello/tweeter/blob/master/docs/tweeter-mobile-new-tweet.png?raw=true)
 
 ## Getting Started
 
