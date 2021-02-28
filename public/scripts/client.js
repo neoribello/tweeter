@@ -3,9 +3,11 @@
  * jQuery is already loaded
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
-
-$(document).ready(function() {
-  const data = [];
+  $(".write").click(function() {
+    $('html, body').animate({
+      scrollTop: $(".new-tweet").offset().top
+    }, 1000);
+  });
 
   // escape funciton refactors the user input
   const escape = function(str) {
@@ -13,28 +15,25 @@ $(document).ready(function() {
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
   };
-
-
-  const renderTweets = function(tweets) {
-    // loops through tweets
-    for (const tweet of tweets) {
-    // calls createTweetElement for each tweet
-      const $tweet = createTweetElement(tweet);
-      console.log($tweet);
-      // takes return value and appends it to the tweets container
-      $("#tweets-container").prepend($tweet);
+  
+  const timeCreated = (time) => {
+    const timeDiff = Date.now() - time;
+    if (timeDiff >= 31556952000) {
+      return `${Math.floor(timeDiff / 31556952000)} years`;
+    } else if (timeDiff >= 2592000000) {
+      return `${Math.floor(timeDiff / 2592000000)} months`;
+    } else if (timeDiff >= 604800000) {
+      return `${Math.floor(timeDiff / 604800000)} weeks`;
+    } else if (timeDiff >= 86400000) {
+      return `${Math.floor(timeDiff / 86400000)} days`;
+    } else if (timeDiff >= 3600000) {
+      return `${Math.floor(timeDiff / 3600000)} hours`;
+    } else if (timeDiff >= 60000) {
+      return `${Math.floor(timeDiff / 60000)} minutes`;
+    } else {
+      return `${Math.floor(timeDiff / 1000)} seconds`;
     }
   };
-
-  const loadTweets = function() {
-    $.ajax("/tweets", {
-      method: "GET",
-      success: function(res) {
-        renderTweets(res);
-      }
-    });
-  };
-  loadTweets();
 
   const createTweetElement = function(tweet) {
     let $tweet =
@@ -70,7 +69,30 @@ $(document).ready(function() {
     `;
     return $tweet;
   };
-  renderTweets(data);
+
+  const renderTweets = function(tweets) {
+    $('#tweets-container').empty();
+    // loops through tweets
+    for (const tweet of tweets) {
+    // calls createTweetElement for each tweet
+      const $tweet = createTweetElement(tweet);
+      console.log($tweet);
+      // takes return value and appends it to the tweets container
+      $("#tweets-container").prepend($tweet);
+    }
+  };
+
+  const loadTweets = function() {
+    $.ajax("/tweets", {
+      method: "GET",
+      success: function(res) {
+        renderTweets(res);
+      }
+    });
+  };
+  
+$(document).ready(function() {
+  loadTweets();
   
   $("#tweet-form").on('submit', function(event) {
     event.preventDefault();
@@ -84,7 +106,7 @@ $(document).ready(function() {
     
     // If form exceeds 140 characters
     if ($("#tweet-text").val().length > 140) {
-      $(".tweet-error").text("Too long. Plz respect our arbitary limit");
+      $(".tweet-error").text("Too long. Please respect our arbitrary limit");
       $(".tweet-error").slideDown("slow");
       $(".tweet-error").css({"color": "red", "border": "3px solid red", "padding" : "10px"});
       return;
@@ -104,29 +126,4 @@ $(document).ready(function() {
         loadTweets();
       });
   });
-
-  $(".write").click(function() {
-    $('html, body').animate({
-      scrollTop: $(".new-tweet").offset().top
-    }, 1000);
-  });
-  
-  const timeCreated = (time) => {
-    const timeDiff = Date.now() - time;
-    if (timeDiff >= 31556952000) {
-      return `${Math.floor(timeDiff / 31556952000)} years`;
-    } else if (timeDiff >= 2592000000) {
-      return `${Math.floor(timeDiff / 2592000000)} months`;
-    } else if (timeDiff >= 604800000) {
-      return `${Math.floor(timeDiff / 604800000)} weeks`;
-    } else if (timeDiff >= 86400000) {
-      return `${Math.floor(timeDiff / 86400000)} days`;
-    } else if (timeDiff >= 3600000) {
-      return `${Math.floor(timeDiff / 3600000)} hours`;
-    } else if (timeDiff >= 60000) {
-      return `${Math.floor(timeDiff / 60000)} minutes`;
-    } else {
-      return `${Math.floor(timeDiff / 1000)} seconds`;
-    }
-  };
 });
