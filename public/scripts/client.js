@@ -3,11 +3,6 @@
  * jQuery is already loaded
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
-  $(".write").click(function() {
-    $('html, body').animate({
-      scrollTop: $(".new-tweet").offset().top
-    }, 1000);
-  });
 
   // escape funciton refactors the user input
   const escape = function(str) {
@@ -125,5 +120,12 @@ $(document).ready(function() {
         $(".tweet-error").css("display", "none");
         loadTweets();
       });
+  });
+
+  
+  $(".write").click(function() {
+    $('html, body').animate({
+      scrollTop: $(".new-tweet").offset().top
+    }, 1000);
   });
 });
